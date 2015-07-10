@@ -1,0 +1,45 @@
+<apex:page controller="LoginController"  sidebar="false">
+	<apex:form >
+		<apex:pageMessages />
+
+		<div align="center">
+			<div class="block">
+				<apex:pageBlock >
+					<table>
+						<tr>
+							<td colspan="2">
+							<apex:outputLabel value="Username" />
+							<br />
+
+							<apex:inputText value="{! username }" />
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+							<apex:outputLabel value="Password" />
+							<br />
+
+							<apex:inputText value="{! password }" />
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<apex:commandButton value="Login" action="{! doLogin }" />
+							</td>
+							<td>
+								<apex:commandButton value="Registation" action="{! doRegister }" immediate="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<apex:commandButton value="Forgot password" action="{! doForgotPassword }" immediate="true" />
+							</td>
+						</tr>
+					</table>
+				</apex:pageBlock>
+			</div>
+		</div>
+	</apex:form>
+</apex:page>

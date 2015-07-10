@@ -1,0 +1,13 @@
+<apex:page showHeader="true" sidebar="true" controller="CookieController">
+
+<div class="divId"></div>
+
+<script>
+	var browserId = document.cookie;
+
+	var div = document.querySelector(".divId");
+	div.innerHTML = document.cookie;
+
+</script>
+
+</apex:page>

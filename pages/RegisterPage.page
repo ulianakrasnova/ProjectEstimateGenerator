@@ -1,0 +1,62 @@
+<apex:page controller="RegisterController">
+	<apex:form id="formId" >
+		<apex:actionFunction name="CeckFunc" action="{! doCheck }" immediate="true" rerender="formId">
+			<apex:param name="username" value=""/>
+			<apex:param name="email" value=""/>
+		</apex:actionFunction>
+
+		<apex:pageMessages />
+
+		<apex:pageBlock >
+			<apex:pageBlockButtons location="bottom">
+				<apex:commandButton value="Cancel" action="{! doCancel }" immediate="true" />
+				<apex:commandButton value="Registation" action="{! doRegister }" />
+			</apex:pageBlockButtons>
+
+			<apex:pageBlockSection columns="2">
+				<apex:pageBlockSectionItem >
+					<apex:outputLabel for="firstNameId" value="First Name" />
+					<apex:inputText id="firstNameId" value="{! firstName }" required="true"/>
+				</apex:pageBlockSectionItem>
+
+				<apex:pageBlockSectionItem >
+					<apex:outputLabel for="lastNameId" value="Last Name" />
+					<apex:inputText id="lastNameId" value="{! lastName }" required="true"/>
+				</apex:pageBlockSectionItem>
+
+				<apex:pageBlockSectionItem >
+					<apex:outputLabel for="usernameId" value="Login" />
+					<apex:inputText id="usernameId" value="{! username }" onchange="CeckFunc(document.querySelector('input[id*=usernameId]').value, document.querySelector('input[id*=emailId]').value);" />
+				</apex:pageBlockSectionItem>
+
+				<apex:pageBlockSectionItem >
+					<apex:outputLabel for="passwordId" value="Password" />
+					<apex:inputText id="passwordId" value="{! password }" />
+				</apex:pageBlockSectionItem>
+
+				<apex:pageBlockSectionItem >
+					<apex:outputLabel for="emailId" value="Email" />
+					<apex:inputField id="emailId" value="{! user.Email__c }" onchange="CeckFunc(document.querySelector('input[id*=usernameId]').value, document.querySelector('input[id*=emailId]').value);" />
+				</apex:pageBlockSectionItem>
+
+				<apex:pageBlockSectionItem >
+				</apex:pageBlockSectionItem>
+
+				<apex:pageBlockSectionItem >
+					<apex:outputLabel for="questionId" value="Choose a security question" />
+					<apex:inputField id="questionId" value="{! user.Question__c }" />
+				</apex:pageBlockSectionItem>
+
+				<apex:pageBlockSectionItem >
+					<apex:outputLabel for="hintId" value="Your hint" />
+					<apex:inputField id="hintId" value="{! user.Hint__c }" />
+				</apex:pageBlockSectionItem>
+
+				<apex:pageBlockSectionItem >
+					<apex:outputLabel for="answerId" value="Your answer" />
+					<apex:inputField id="answerId" value="{! user.Answer__c }" />
+				</apex:pageBlockSectionItem>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>
