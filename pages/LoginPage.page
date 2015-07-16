@@ -20,7 +20,7 @@
 							<apex:outputLabel value="Password" />
 							<br />
 
-							<apex:inputText value="{! password }" />
+							<apex:inputSecret value="{! password }" />
 							</td>
 						</tr>
 
