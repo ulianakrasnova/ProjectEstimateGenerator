@@ -1,20 +1,12 @@
 public with sharing class TopicWrapper {
 
-	private String name;
-	private String description;
+	public String name { get; set; }
+	public String description { get; set; }
 	private static List<TopicWrapper> allTopics = new List<TopicWrapper>();
 
 	public TopicWrapper(Topic__c topic) {
 		this.name = topic.Name;
 		this.description = topic.Description__c;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public String getDescription() {
-		return this.description;
 	}
 
 	public static List<TopicWrapper> getAllTopics() {

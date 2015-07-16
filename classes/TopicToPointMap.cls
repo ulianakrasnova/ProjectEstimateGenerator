@@ -1,20 +1,12 @@
 public with sharing class TopicToPointMap {
 
-	private TopicWrapper topicWrapper;
-	private List<PointWrapper> pointWrappersList;
+	public TopicWrapper topicWrapper { get; set; }
+	public List<PointWrapper> pointWrappersList { get; set; }
 	private static List<TopicToPointMap> allTopicToPointMaps = new List<TopicToPointMap>();
 	
 	public TopicToPointMap(TopicWrapper topicWrapper, List<PointWrapper> pointWrappersList) {
 		this.topicWrapper = topicWrapper;
 		this.pointWrappersList = pointWrappersList;
-	}
-
-	public TopicWrapper getTopicWrapper() {
-		return this.topicWrapper;
-	}
-
-	public List<PointWrapper> getPointWrappersList() {
-		return this.pointWrappersList;
 	}
 
 	public static List<TopicToPointMap> getAllTopicToPointMaps() {
@@ -26,7 +18,7 @@ public with sharing class TopicToPointMap {
 		for (TopicWrapper topic: allTopics) {
 			List<PointWrapper> points = new List<PointWrapper>();
 			for (PointWrapper point: allPoints) {
-				if (topic.getName() == point.getTopicName()) {
+				if (topic.name == point.topicName) {
 					points.add(point);
 				}
 			}

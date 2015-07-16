@@ -1,13 +1,13 @@
 public with sharing class PointWrapper {
 
-	private String name;
-	private String description;
-	private String topicName;
-	private List<EstimateTimeWrapper> estimateTimeWrappersList;
+	public String name { get; set; }
+	public String description { get; set; }
+	public String topicName { get; set; }
+	public List<EstimateTimeWrapper> estimateTimeWrappersList { get; set; }
 	private static List<PointWrapper> allPoints = new List<PointWrapper>();
 
 	public PointWrapper(Point__c point) {
-		this.name = point.name;
+		this.name = point.Name;
 		this.description = point.Description__c;
 		this.topicName = point.Topic__r.Name;
 
@@ -19,22 +19,6 @@ public with sharing class PointWrapper {
 		]) {
 			estimateTimeWrappersList.add(new EstimateTimeWrapper(estimateTime.Time__c, estimateTime.Hardness_Level__r));
 		}		
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public String getTopicName() {
-		return this.topicName;
-	}
-
-	public List<EstimateTimeWrapper> getEstimateTimeWrappersList() {
-		return this.estimateTimeWrappersList;
 	}
 
 	public static List<PointWrapper> getAllPoints() {
