@@ -25,7 +25,7 @@ public with sharing class TopicController {
 		];
 	}
 
-	public PageReference save() {
+	public PageReference saveAll() {
 		List<Topic__c> topicsToUpdate = new List<Topic__c>();
 		List<Point__c> pointsToUpdate = new List<Point__c>();
 		List<Estimate_Time__c> estimateTimesToUpdate = new List<Estimate_Time__c>();

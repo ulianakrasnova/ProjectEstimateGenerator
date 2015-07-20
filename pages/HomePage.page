@@ -24,7 +24,7 @@
 
 			</apex:repeat>
 			
-			<apex:commandButton action="{! save }" value="Save"/>
+			<apex:commandButton action="{! saveAll }" value="Save"/>
 			
 		</apex:form>
 	</div>

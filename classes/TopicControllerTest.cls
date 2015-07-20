@@ -1,6 +1,8 @@
 @isTest
-private class TopicToPointMapTest {
+private class TopicControllerTest {
 
+	private static TopicController testTopicController;
+	
 	private static void init() {
 		// counter for further loops
 		Integer i;
@@ -37,11 +39,13 @@ private class TopicToPointMapTest {
 				Name = 'Point ' + String.valueOf(i),
 				Description__c = 'Point ' + String.valueOf(i) + ' Description',
 				Topic__c = testTopicsList[i].Id
+
 			);
 			testPointsList.add(testPoint);
 		}
 
 		insert testPointsList;
+
 
 		Hardness_Level__c testHardnessLevel = new Hardness_Level__c(
 			Name = 'test'
@@ -58,22 +62,24 @@ private class TopicToPointMapTest {
 				Time__c = i,
 				Employee__c = testEmployee.Id
 			);
+			testEstimateTimesList.add(testEstimateTime);
 		}
 
 		insert testEstimateTimesList;
+
+		testTopicController = new TopicController();
 	}
-	
 
 	@isTest static void getAllTopicToPointMaps_isNotEmpty() {
 		init();
 
 		Test.startTest();
 
-		List<TopicToPointMap> testAllTopicToPointMaps = TopicToPointMap.getAllTopicToPointMaps();
-
-		System.assert(!testAllTopicToPointMaps.isEmpty());
+		List<TopicToPointMap> testAllTopicToPointMaps = testTopicController.getAllTopicToPointMaps();
 
 		Test.stopTest();
+
+		System.assert(!testAllTopicToPointMaps.isEmpty());
 	}
 	
 	@isTest static void getAllTopicToPointMaps_mappedProperly() {
@@ -81,11 +87,31 @@ private class TopicToPointMapTest {
 
 		Test.startTest();
 
-		List<TopicToPointMap> testAllTopicToPointMaps = TopicToPointMap.getAllTopicToPointMaps();
-
-		System.assertEquals(testAllTopicToPointMaps[0].topicWrapper.name, testAllTopicToPointMaps[0].pointWrappersList[0].topicName);
+		List<TopicToPointMap> testAllTopicToPointMaps = testTopicController.getAllTopicToPointMaps();
 
 		Test.stopTest();
+
+		System.assertEquals(testAllTopicToPointMaps[0].topicWrapper.id, testAllTopicToPointMaps[0].pointWrappersList[0].topicId);
+	}
+
+	@isTest static void getHardnessLevelsNumber_equalsOne() {
+		init();
+
+		System.assertEquals(testTopicController.getHardnessLevelsNumber(), 1);
+	}
+
+	@isTest static void saveAll_newEstimateTimeIsSaved() {
+		init();
+
+		Test.startTest();
+
+		List<TopicToPointMap> allTopicToPointMaps = testTopicController.getAllTopicToPointMaps();
+		allTopicToPointMaps[0].pointWrappersList[0].estimateTimeWrappersList[0].estimateTime = 1000;
+		testTopicController.saveAll();
+
+		Test.stopTest();
+
+		System.assertEquals(testTopicController.getAllTopicToPointMaps()[0].pointWrappersList[0].estimateTimeWrappersList[0].estimateTime, 1000);
 	}
 	
 }
