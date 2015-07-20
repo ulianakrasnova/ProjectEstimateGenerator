@@ -23,10 +23,60 @@
 				</apex:pageBlock>
 
 			</apex:repeat>
-			
-			<apex:commandButton action="{! saveAll }" value="Save" />
-			<apex:commandButton action="{! discardChanges }" value="Discard" />
 
+			<div class="row">
+				<div class="col-lg-12">
+					<apex:commandLink onclick="return false;" html-data-toggle="modal" html-data-target="#addNewTopic" value="Add new topic" /> 
+				</div>
+			</div>
+
+			<div class="modal fade" id="addNewTopic" tabindex="-1" role="dialog" aria-labelledby="addNewTopic" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			      	<h2>Add new topic</h2>
+			        <button type="button" class="close" data-dismiss="modal">
+				        <span aria-hidden="true">&times;</span>
+				        <span class="sr-only">Close</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			      	
+			        <apex:pageBlock>
+			   			<apex:pageBlockSection columns="2" collapsible="false">
+
+			   				<apex:pageBlockSectionItem>
+			   					<apex:outputLabel value="Topic name: " for="newTopicName" />
+			        			<apex:inputText id="newTopicName" value="{! newTopicName }" />
+			   				</apex:pageBlockSectionItem>
+			        		
+			        		<apex:pageBlockSectionItem>
+				        		<apex:outputLabel value="Topic description: " for="newTopicDescription" />
+				        		<apex:inputTextarea id="newTopicDescription" value="{! newTopicDescription }" />
+			        		</apex:pageBlockSectionItem>
+
+						</apex:pageBlockSection>
+			        </apex:pageBlock>
+
+			      </div>
+			      <div class="modal-footer">
+
+				        <apex:commandButton onclick="return false;" html-data-dismiss="modal" value="Cancel" /> 
+				        <apex:commandButton action="{! createNewTopic }" value="Save" />
+
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<apex:commandButton action="{! saveAll }" value="Save" />
+					<apex:commandButton action="{! discardChanges }" value="Discard" />
+				</div>		
+			</div>
 		</apex:form>
+
 	</div>
+
 </apex:page>

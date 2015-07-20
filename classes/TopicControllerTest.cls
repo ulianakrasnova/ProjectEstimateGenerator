@@ -97,7 +97,11 @@ private class TopicControllerTest {
 	@isTest static void getHardnessLevelsNumber_equalsOne() {
 		init();
 
+		Test.startTest();
+
 		System.assertEquals(testTopicController.getHardnessLevelsNumber(), 1);
+
+		Test.stopTest();
 	}
 
 	@isTest static void saveAll_newEstimateTimeIsSaved() {
@@ -126,5 +130,26 @@ private class TopicControllerTest {
 		Test.stopTest();
 
 		System.assertNotEquals(testTopicController.getAllTopicToPointMaps()[0].pointWrappersList[0].estimateTimeWrappersList[0].estimateTime, 1000);
+	}
+
+	@isTest static void createNewTopic_newTopicIsCreated() {
+		init();
+
+		Test.startTest();
+
+		testTopicController.newTopicName = 'New Topic Name';
+		testTopicController.newTopicDescription = 'New Topic Description';
+		testTopicController.createNewTopic();
+
+		Test.stopTest();
+
+		Topic__c createdTopic = [
+			SELECT Name, Description__c
+			FROM Topic__c
+			WHERE Name = 'New Topic Name'
+			LIMIT 1
+		][0];
+
+		System.assertEquals(createdTopic.Description__c, 'New Topic Description');
 	}
 }

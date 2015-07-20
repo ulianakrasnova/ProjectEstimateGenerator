@@ -3,6 +3,9 @@ public with sharing class TopicController {
 	private List<TopicToPointMap> allTopicToPointMaps;
 	private Employee__c currentUser;
 
+	public String newTopicName { get; set; }
+	public String newTopicDescription { get; set; }
+
 	public TopicController() {
 		String sessionId = ApexPages.currentPage().getCookies().get('userSession').getValue();
 		this.currentUser = [
@@ -11,6 +14,7 @@ public with sharing class TopicController {
 			WHERE Session__c = :sessionId
 			LIMIT 1
 		][0];
+
 	}
 
 	public List<TopicToPointMap> getAllTopicToPointMaps() {
@@ -73,6 +77,19 @@ public with sharing class TopicController {
 	}
 
 	public PageReference discardChanges() {
+		return ApexPages.currentPage();
+	}
+
+	public PageReference createNewTopic() {
+		Topic__c newTopic = new Topic__c(
+			Name = newTopicName,
+			Description__c = newTopicDescription
+		);
+		insert newTopic;
+
+		newTopicName = '';
+		newTopicDescription = '';
+
 		return ApexPages.currentPage();
 	}
 
