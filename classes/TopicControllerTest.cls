@@ -114,4 +114,17 @@ private class TopicControllerTest {
 		System.assertEquals(testTopicController.getAllTopicToPointMaps()[0].pointWrappersList[0].estimateTimeWrappersList[0].estimateTime, 1000);
 	}
 	
+	@isTest static void discardChanges_newEstimateTimeIsDiscarded() {
+		init();
+
+		Test.startTest();
+
+		List<TopicToPointMap> allTopicToPointMaps = testTopicController.getAllTopicToPointMaps();
+		allTopicToPointMaps[0].pointWrappersList[0].estimateTimeWrappersList[0].estimateTime = 1000;
+		testTopicController.discardChanges();
+
+		Test.stopTest();
+
+		System.assertNotEquals(testTopicController.getAllTopicToPointMaps()[0].pointWrappersList[0].estimateTimeWrappersList[0].estimateTime, 1000);
+	}
 }

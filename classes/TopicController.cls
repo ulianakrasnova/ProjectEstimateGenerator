@@ -72,4 +72,8 @@ public with sharing class TopicController {
 		return ApexPages.currentPage();
 	}
 
+	public PageReference discardChanges() {
+		return ApexPages.currentPage();
+	}
+
 }

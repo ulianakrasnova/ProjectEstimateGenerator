@@ -1,15 +1,15 @@
-<apex:page controller="TopicController" sidebar="false" showHeader="false">
-	<apex:composition template="Composition"/>
+<apex:page controller="TopicController" sidebar="false" showHeader="false" >
+	<apex:composition template="Composition" />
 
 	<div class="container">
 		<apex:form>
-			<apex:repeat value="{! allTopicToPointMaps }" var="topicToPointMap">
+			<apex:repeat value="{! allTopicToPointMaps }" var="topicToPointMap" >
 
 				<apex:pageBlock title="{! topicToPointMap.topicWrapper.name }" >
 					<apex:repeat value="{! topicToPointMap.pointWrappersList }" var="pointWrapper">
 
-						<apex:pageBlockSection title="{! pointWrapper.name }" columns="{! hardnessLevelsNumber }">
-							<apex:repeat value="{! pointWrapper.estimateTimeWrappersList }" var="estimateTimeWrapper">
+						<apex:pageBlockSection title="{! pointWrapper.name }" columns="{! hardnessLevelsNumber }" >
+							<apex:repeat value="{! pointWrapper.estimateTimeWrappersList }" var="estimateTimeWrapper" >
 
 								<apex:pageBlockSectionItem>
 									<apex:outputLabel value="{! estimateTimeWrapper.hardnessLevelName }" />
@@ -24,8 +24,9 @@
 
 			</apex:repeat>
 			
-			<apex:commandButton action="{! saveAll }" value="Save"/>
-			
+			<apex:commandButton action="{! saveAll }" value="Save" />
+			<apex:commandButton action="{! discardChanges }" value="Discard" />
+
 		</apex:form>
 	</div>
 </apex:page>
