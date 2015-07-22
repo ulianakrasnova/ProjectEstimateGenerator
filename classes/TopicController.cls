@@ -3,8 +3,8 @@ public with sharing class TopicController {
 	private List<TopicToPointMap> allTopicToPointMaps;
 	private Employee__c currentUser;
 
-	public String newTopicName { get; set; }
-	public String newTopicDescription { get; set; }
+	public transient String newTopicName { get; set; }
+	public transient String newTopicDescription { get; set; }
 
 	public TopicController() {
 		String sessionId = ApexPages.currentPage().getCookies().get('userSession').getValue();
@@ -87,10 +87,40 @@ public with sharing class TopicController {
 		);
 		insert newTopic;
 
-		newTopicName = '';
-		newTopicDescription = '';
-
 		return ApexPages.currentPage();
 	}
 
+	public PageReference createNewPoint() {
+		String topicId = ApexPages.currentPage().getParameters().get('topicId');
+
+		TopicToPointMap currentTopicToPointMap = TopicToPointMap.searchByTopicId(topicId);
+
+		Point__c point = new Point__c(
+			Name = currentTopicToPointMap.topicWrapper.newPointName,
+			Description__c = currentTopicToPointMap.topicWrapper.newPointDescription,
+			Topic__c = topicId
+		);
+
+		insert point;
+
+		List<Estimate_Time__c> estimateTimesToInsert = new List<Estimate_Time__c>();
+
+		for (Hardness_Level__c hardnessLevel: [
+			SELECT Name
+			FROM Hardness_Level__c
+			LIMIT 10000
+		]) {
+			Estimate_Time__c estimateTimeToInsert = new Estimate_Time__c(
+				Point__c = point.Id,
+				Hardness_Level__c = hardnessLevel.Id,
+				Employee__c = currentUser.Id,
+				Time__c = 0
+			);
+			estimateTimesToInsert.add(estimateTimeToInsert);
+		}
+
+		insert estimateTimesToInsert;
+
+		return null;
+	}
 }

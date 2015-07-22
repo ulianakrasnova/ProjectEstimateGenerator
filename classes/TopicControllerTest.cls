@@ -68,6 +68,11 @@ private class TopicControllerTest {
 		insert testEstimateTimesList;
 
 		testTopicController = new TopicController();
+
+		ApexPages.currentPage().getParameters().put('topicId', testTopicsList[0].Id);
+
+		TopicToPointMap.searchByTopicId(testTopicsList[0].Id).topicWrapper.newPointName = 'New Point Name';
+		TopicToPointMap.searchByTopicId(testTopicsList[0].Id).topicWrapper.newPointDescription = 'New Point Description';
 	}
 
 	@isTest static void getAllTopicToPointMaps_isNotEmpty() {
@@ -151,5 +156,53 @@ private class TopicControllerTest {
 		][0];
 
 		System.assertEquals(createdTopic.Description__c, 'New Topic Description');
+	}
+
+	@isTest static void createNewPoint_newPointIsCreated() {
+		init();
+
+		Integer pointsNumber = (Integer) [
+			SELECT COUNT(Name)
+			FROM Point__c
+		][0].get('expr0');
+
+		System.assertEquals(pointsNumber, 2);
+
+		Test.startTest();
+
+		testTopicController.createNewPoint();
+
+		Test.stopTest();
+
+		pointsNumber = (Integer) [
+			SELECT COUNT(Name)
+			FROM Point__c
+		][0].get('expr0');
+
+		System.assertEquals(pointsNumber, 3);
+	}
+
+	@isTest static void createNewPoint_nameAndDescriptionAreFilled() {
+		init();
+
+		Test.startTest();
+
+		testTopicController.createNewPoint();
+
+		Test.stopTest();
+
+		System.assert(! [
+			SELECT Name
+			FROM Point__c
+			WHERE Name = 'New Point Name'
+			LIMIT 1
+		].isEmpty());
+		
+		System.assert(! [
+			SELECT Name
+			FROM Point__c
+			WHERE Description__c = 'New Point Description'
+			LIMIT 1
+		].isEmpty());
 	}
 }

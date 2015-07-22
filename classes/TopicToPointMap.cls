@@ -2,6 +2,7 @@ public with sharing class TopicToPointMap {
 
 	public TopicWrapper topicWrapper { get; set; }
 	public List<PointWrapper> pointWrappersList { get; set; }
+	public static List<TopicToPointMap> allTopicToPointMaps;
 	
 	public TopicToPointMap(TopicWrapper topicWrapper, List<PointWrapper> pointWrappersList) {
 		this.topicWrapper = topicWrapper;
@@ -12,7 +13,7 @@ public with sharing class TopicToPointMap {
 		List<TopicWrapper> allTopics = TopicWrapper.getAllTopics();
 		List<PointWrapper> allPoints = PointWrapper.getAllPoints();
 
-		List<TopicToPointMap> allTopicToPointMaps = new List<TopicToPointMap>();
+		allTopicToPointMaps = new List<TopicToPointMap>();
 
 		for (TopicWrapper topic: allTopics) {
 			List<PointWrapper> points = new List<PointWrapper>();
@@ -22,9 +23,22 @@ public with sharing class TopicToPointMap {
 				}
 			}
 			allTopicToPointMaps.add(new TopicToPointMap(topic, points));
-		}
+		}	
 
 		return allTopicToPointMaps;
 	}
 
+	public static TopicToPointMap searchByTopicId(String topicId) {
+		if (allTopicToPointMaps == null) {
+			allTopicToPointMaps = TopicToPointMap.getAllTopicToPointMaps();
+		}
+
+		for (TopicToPointMap currentTopicToPointMap: allTopicToPointMaps) {
+			if (currentTopicToPointMap.topicWrapper.id == topicId) {
+				return currentTopicToPointMap;
+			}
+		}
+
+		return null;
+	}
 }

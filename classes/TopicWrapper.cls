@@ -5,6 +5,9 @@ public with sharing class TopicWrapper {
 	public String description { get; set; }
 	private static List<TopicWrapper> allTopics = new List<TopicWrapper>();
 
+	public String newPointName { get; set; }
+	public String newPointDescription { get; set; }
+
 	public TopicWrapper(Topic__c topic) {
 		this.id = topic.Id;
 		this.name = topic.Name;

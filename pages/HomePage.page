@@ -2,7 +2,7 @@
 	<apex:composition template="Composition" />
 
 	<div class="container">
-		<apex:form>
+		<apex:form id="estimateTimes" >
 			<apex:repeat value="{! allTopicToPointMaps }" var="topicToPointMap" >
 
 				<apex:pageBlock title="{! topicToPointMap.topicWrapper.name }" >
@@ -17,9 +17,57 @@
 								</apex:pageBlockSectionItem>
 
 							</apex:repeat>
+
 						</apex:pageBlockSection>
 
 					</apex:repeat>
+
+					<apex:commandLink onclick="return false;" html-data-toggle="modal" html-data-target="#addNewPoint{! topicToPointMap.topicWrapper.id }" value="Add new point" />
+
+					<!-- 
+						Modal window for new point
+					-->
+					<div class="modal fade" id="addNewPoint{! topicToPointMap.topicWrapper.id }" tabindex="-1" role="dialog" aria-labelledby="addNewPoint" aria-hidden="true">
+					  	<div class="modal-dialog">
+					    	<div class="modal-content">
+					      		<div class="modal-header">
+					      			<h2>Add new point</h2>
+					        		<button type="button" class="close" data-dismiss="modal">
+						        		<span class="sr-only">Close</span>
+					        		</button>
+					      		</div>
+					      		<div class="modal-body">
+					      	
+						        	<apex:pageBlock>
+							   			<apex:pageBlockSection columns="2" collapsible="false">
+
+							   				<apex:pageBlockSectionItem>
+							   					<apex:outputLabel value="Point name: " for="newPointName" />
+							        			<apex:inputText id="newPointName" value="{! topicToPointMap.topicWrapper.newPointName }" required="true" />
+							   				</apex:pageBlockSectionItem>
+							        		
+							        		<apex:pageBlockSectionItem>
+								        		<apex:outputLabel value="Point description: " for="newPointDescription" />
+								        		<apex:inputTextarea id="newPointDescription" value="{! topicToPointMap.topicWrapper.newPointDescription }" required="true" />
+							        		</apex:pageBlockSectionItem>
+
+										</apex:pageBlockSection>
+							        </apex:pageBlock>
+
+						      	</div>
+					      
+					      		<div class="modal-footer">
+
+						        	<apex:commandButton onclick="return false;" html-data-dismiss="modal" value="Cancel" /> 
+						        	<apex:commandButton action="{! createNewPoint }" value="Save" oncomplete="$j('.modal.in').modal('hide'); $j('.modal-backdrop').remove(); $j('body').removeClass('modal-open'); return false;" rerender="estimateTimes" >
+						        		<apex:param name="topicId" value="{! topicToPointMap.topicWrapper.id }" />
+						        	</apex:commandButton>
+
+					     		</div>
+					    	</div>
+					  	</div>
+					</div>
+
 				</apex:pageBlock>
 
 			</apex:repeat>
@@ -30,13 +78,15 @@
 				</div>
 			</div>
 
+			<!-- 
+				Modal window for new topic
+			-->
 			<div class="modal fade" id="addNewTopic" tabindex="-1" role="dialog" aria-labelledby="addNewTopic" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			      <div class="modal-header">
 			      	<h2>Add new topic</h2>
 			        <button type="button" class="close" data-dismiss="modal">
-				        <span aria-hidden="true">&times;</span>
 				        <span class="sr-only">Close</span>
 			        </button>
 			      </div>
@@ -47,12 +97,12 @@
 
 			   				<apex:pageBlockSectionItem>
 			   					<apex:outputLabel value="Topic name: " for="newTopicName" />
-			        			<apex:inputText id="newTopicName" value="{! newTopicName }" />
+			        			<apex:inputText id="newTopicName" value="{! newTopicName }" required="true" />
 			   				</apex:pageBlockSectionItem>
 			        		
 			        		<apex:pageBlockSectionItem>
 				        		<apex:outputLabel value="Topic description: " for="newTopicDescription" />
-				        		<apex:inputTextarea id="newTopicDescription" value="{! newTopicDescription }" />
+				        		<apex:inputTextarea id="newTopicDescription" value="{! newTopicDescription }" required="true" />
 			        		</apex:pageBlockSectionItem>
 
 						</apex:pageBlockSection>
